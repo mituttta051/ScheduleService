@@ -1,10 +1,17 @@
 package cybercooker.scheduleservice.entity.template;
 
-import cybercooker.scheduleservice.entity.WeekDay;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TemplateDaySchedule {
-    private WeekDay week_day; 
+    private int weekDay;
     private List<TemplateMealSlot> mealSlots;
 }

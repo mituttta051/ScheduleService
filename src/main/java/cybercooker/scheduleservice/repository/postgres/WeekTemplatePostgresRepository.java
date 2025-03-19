@@ -17,7 +17,8 @@ import java.util.List;
 
 @Repository
 public class WeekTemplatePostgresRepository implements WeekTemplateRepository {
-    @Autowired private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
 
     @Override
