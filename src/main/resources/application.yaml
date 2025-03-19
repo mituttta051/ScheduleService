@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ScheduleService
+  datasource:
+    url: jdbc:postgresql://localhost:5432/schedule-db
+    username: admin
+    password: secret
