@@ -1,0 +1,44 @@
+{
+  "id": 1,
+  "space_id": 2,
+  "name": "Нет готовке",
+  "data": {
+    "day_schedules": [
+      {
+        "week_day": 1,
+        "meal_slots": [
+          {
+            "name": "Обеденная трапеза",
+            "have_to_cook": false,
+            "locked": false,
+            "filter": {
+              "type": "CONTAINS_TAG",
+              "tag_id": 1,
+              "tag_value": 1
+            }
+          },
+            {
+                "name": "Ужин",
+                "have_to_cook": false,
+                "locked": false,
+                "filter": {
+                "type": "CONTAINS_TAG",
+                "tag_id": 1,
+                "tag_value": 2
+                }
+            },
+            {
+                "name": "Завтрак",
+                "have_to_cook": false,
+                "locked": false,
+                "filter": {
+                "type": "CONTAINS_TAG",
+                "tag_id": 1,
+                "tag_value": 3
+                }
+            }
+        ]
+      }
+    ]
+  }
+}

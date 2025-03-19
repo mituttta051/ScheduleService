@@ -8,11 +8,13 @@ import cybercooker.scheduleservice.exception.AlreadyExistsException;
 import cybercooker.scheduleservice.exception.NotFoundException;
 import cybercooker.scheduleservice.repository.interfaces.WeekTemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -46,18 +48,24 @@ public class WeekTemplatePostgresRepository implements WeekTemplateRepository {
         String sql = "INSERT INTO week_template (space_id, name, data) VALUES (?, ?, ?::jsonb)";
         try {
             jdbcTemplate.update(sql, weekTemplate.getSpaceId(), weekTemplate.getName(), objectMapper.writeValueAsString(weekTemplate.getData()));
+        } catch (DuplicateKeyException e) {
+            throw new AlreadyExistsException("Week template with id " + weekTemplate.getId() + " already exists in space " + weekTemplate.getSpaceId());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
     public void update(WeekTemplate weekTemplate) throws NotFoundException, AlreadyExistsException {
         String sql = "UPDATE week_template SET name = ?, data = ?::jsonb WHERE id = ? AND space_id = ?";
         try {
-            jdbcTemplate.update(sql, weekTemplate.getName(), objectMapper.writeValueAsString(weekTemplate.getData()), weekTemplate.getId(), weekTemplate.getSpaceId());
-        } catch (Exception e) {
+            int numOfRows = jdbcTemplate.update(sql, weekTemplate.getName(), objectMapper.writeValueAsString(weekTemplate.getData()), weekTemplate.getId(), weekTemplate.getSpaceId());
+            if (numOfRows == 0) {
+                throw new NotFoundException("Week template with id " + weekTemplate.getId() + " not found");
+            }
+        } catch (DuplicateKeyException e) {
+            throw new AlreadyExistsException("Week template with id " + weekTemplate.getId() + " already exists in space " + weekTemplate.getSpaceId());
+        } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
@@ -65,11 +73,11 @@ public class WeekTemplatePostgresRepository implements WeekTemplateRepository {
     @Override
     public void delete(int id, int spaceId) throws NotFoundException {
         String sql = "DELETE FROM week_template WHERE id = ? AND space_id = ?";
-        try {
-            jdbcTemplate.update(sql, id, spaceId);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        int numOfRows = jdbcTemplate.update(sql, id, spaceId);
+        if (numOfRows == 0) {
+            throw new NotFoundException("Week template with id " + id + " not found");
         }
+
     }
 
     private RowMapper<WeekTemplate> rowMapper() {
