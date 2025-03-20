@@ -1,5 +1,6 @@
-package cybercooker.scheduleservice.entity.template;
+package cybercooker.scheduleservice.request;
 
+import cybercooker.scheduleservice.entity.template.TemplateSchedule;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,9 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WeekTemplate {
-    @NotNull
-    private int id;
+public class WeekTemplateCreateRequest {
     @NotNull
     private int spaceId;
     @NotNull
@@ -20,5 +19,3 @@ public class WeekTemplate {
     @NotNull
     private TemplateSchedule data;
 }
-
-
