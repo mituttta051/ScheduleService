@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_nDisoPaXYd
+createdAt: 2025-03-20T08:27:35.203579
+updatedAt: 2025-03-20T08:27:57.822773
+workspaceId: wk_SbbTTdXLZM
+folderId: null
+authentication: { }
+authenticationType: null
+body: { }
+bodyType: null
+description: ''
+headers: [ ]
+method: DELETE
+name: ''
+sortPriority: -1742458000000.0
+url: http://localhost:8080/week-template/delete/1/2
+urlParameters: [ ]

@@ -1,0 +1,23 @@
+type: http_request
+model: http_request
+id: rq_iHbdzCBhoW
+createdAt: 2025-03-20T08:28:41.194017
+updatedAt: 2025-03-20T09:15:51.415709
+workspaceId: wk_SbbTTdXLZM
+folderId: null
+authentication: { }
+authenticationType: null
+body:
+  text: ''
+bodyType: application/json
+description: ''
+headers:
+  - enabled: true
+    name: Content-Type
+    value: application/json
+    id: 7DZQru0bnI
+method: PUT
+name: ''
+sortPriority: -1742458000000.0
+url: http://localhost:8080/week-template/update
+urlParameters: [ ]
