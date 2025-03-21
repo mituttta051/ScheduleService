@@ -48,7 +48,7 @@ public class WeekTemplatePostgresRepository implements WeekTemplateRepository {
         try {
             jdbcTemplate.update(sql, weekTemplate.getSpaceId(), weekTemplate.getName(), objectMapper.writeValueAsString(weekTemplate.getData()));
         } catch (DuplicateKeyException e) {
-            throw new AlreadyExistsException("Week template with id " + weekTemplate.getId() + " already exists in space " + weekTemplate.getSpaceId());
+            throw new AlreadyExistsException("Week template with name " + weekTemplate.getName() + " already exists in space " + weekTemplate.getSpaceId());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

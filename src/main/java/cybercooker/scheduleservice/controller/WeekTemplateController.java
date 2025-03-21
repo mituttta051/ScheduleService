@@ -39,7 +39,7 @@ public class WeekTemplateController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateWeekTemplate(@RequestBody WeekTemplate template) {
+    public ResponseEntity<Void> updateWeekTemplate(@Valid @RequestBody WeekTemplate template) {
         weekTemplateService.update(template);
         return ResponseEntity.ok().build();
     }

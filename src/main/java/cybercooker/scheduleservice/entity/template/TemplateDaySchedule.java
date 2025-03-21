@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TemplateDaySchedule {
     @NotNull
+    @Range(min = 1, max = 7)
     private int weekDay;
     @NotNull
     private List<TemplateMealSlot> mealSlots;
