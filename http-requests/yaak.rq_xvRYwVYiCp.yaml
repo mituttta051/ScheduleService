@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_xvRYwVYiCp
 createdAt: 2025-03-20T09:15:57.842112
-updatedAt: 2025-03-21T11:39:17.101036
+updatedAt: 2025-03-24T08:47:47.946530
 workspaceId: wk_SbbTTdXLZM
 folderId: null
 authentication: { }
@@ -10,15 +10,13 @@ authenticationType: null
 body:
   text: |-
     {
-      "space_id": 1,
       "name": "Базированная неделя",
       "data": {
         "day_schedules": [
           {
-            "week_day": 1,
+            "week_day": 10,
             "meal_slots": [
               {
-                "name": "Обеденная трапеза",
                 "have_to_cook": true,
                 "locked": false,
                 "filter": {

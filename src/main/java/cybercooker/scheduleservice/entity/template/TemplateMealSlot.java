@@ -16,9 +16,9 @@ public class TemplateMealSlot {
     @NotEmpty
     private String name;
     @NotNull
-    private boolean haveToCook;
+    private Boolean haveToCook;
     @NotNull
-    private boolean locked;
+    private Boolean locked;
 
     private Filter filter;
 }

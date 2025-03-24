@@ -1,5 +1,6 @@
 package cybercooker.scheduleservice.entity.template;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,8 @@ import java.util.List;
 public class TemplateDaySchedule {
     @NotNull
     @Range(min = 1, max = 7)
-    private int weekDay;
+    private Integer weekDay;
     @NotNull
+    @Valid
     private List<TemplateMealSlot> mealSlots;
 }

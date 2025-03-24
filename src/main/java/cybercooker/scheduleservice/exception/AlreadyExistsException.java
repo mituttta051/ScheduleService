@@ -1,8 +1,12 @@
 package cybercooker.scheduleservice.exception;
 
-public class AlreadyExistsException extends InternalException {
-    public AlreadyExistsException(String message) {
-        super(message);
+import cybercooker.scheduleservice.exception.details.DatabaseDetails;
+
+public class AlreadyExistsException extends BaseException {
+    public static final String TYPE = "already-exists";
+
+    public AlreadyExistsException(String message, DatabaseDetails details) {
+        super(message, details);
     }
 
 

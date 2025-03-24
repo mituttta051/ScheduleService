@@ -1,8 +1,12 @@
 package cybercooker.scheduleservice.exception;
 
 
-public class NotFoundException extends InternalException {
-    public NotFoundException(String message) {
-        super(message);
+import cybercooker.scheduleservice.exception.details.DatabaseDetails;
+
+public class NotFoundException extends BaseException {
+    public static final String TYPE = "not-found";
+
+    public NotFoundException(String message, DatabaseDetails details) {
+        super(message, details);
     }
 }

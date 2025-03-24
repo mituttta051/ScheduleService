@@ -1,5 +1,6 @@
 package cybercooker.scheduleservice.entity.template;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,5 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class TemplateSchedule {
     @NotEmpty
+    @Valid
     List<TemplateDaySchedule> daySchedules;
 }

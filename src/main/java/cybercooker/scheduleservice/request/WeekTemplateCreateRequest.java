@@ -1,7 +1,7 @@
 package cybercooker.scheduleservice.request;
 
 import cybercooker.scheduleservice.entity.template.TemplateSchedule;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WeekTemplateCreateRequest {
     @NotNull
-    @Min(value = 1, message = "Space id must not be null")
-    private int spaceId;
+    private Integer spaceId;
     @NotNull
     private String name;
     @NotNull
+    @Valid
     private TemplateSchedule data;
 }
