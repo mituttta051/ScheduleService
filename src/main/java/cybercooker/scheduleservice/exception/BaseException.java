@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import cybercooker.scheduleservice.exception.details.ErrorDetails;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
@@ -11,16 +14,21 @@ import cybercooker.scheduleservice.exception.details.ErrorDetails;
         @JsonSubTypes.Type(value = NotFoundException.class, name = NotFoundException.TYPE),
         @JsonSubTypes.Type(value = NotValidRequestException.class, name = NotValidRequestException.TYPE),
 })
+@AllArgsConstructor
+@Getter
 public abstract class BaseException extends RuntimeException {
     ErrorDetails details;
-
-    public BaseException(String message, ErrorDetails details) {
-        super(message);
-        this.details = details;
-    }
+    HttpStatus status;
 
     @JsonValue
-    public ErrorDetails getDetails() {
-        return details;
+    private Wrapper getDetails() {
+        return new Wrapper();
     }
+
+    private class Wrapper {
+        public ErrorDetails getDetails() {
+            return details;
+        }
+    }
+
 }

@@ -31,7 +31,7 @@ public class WeekTemplatePostgresRepository implements WeekTemplateRepository {
         try {
             return jdbcTemplate.queryForObject(sql, rowMapper(), id, spaceId);
         } catch (EmptyResultDataAccessException e) {
-            throw new NotFoundException("Error occurred while writing to the database", new DatabaseDetails("Week template with id " + id + " not found"));
+            throw new NotFoundException(new DatabaseDetails("Week template with id " + id + " not found"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -49,7 +49,7 @@ public class WeekTemplatePostgresRepository implements WeekTemplateRepository {
         try {
             jdbcTemplate.update(sql, weekTemplate.getSpaceId(), weekTemplate.getName(), objectMapper.writeValueAsString(weekTemplate.getData()));
         } catch (DuplicateKeyException e) {
-            throw new AlreadyExistsException("Error occurred while writing to the database", new DatabaseDetails("Week template with name " + weekTemplate.getName() + " already exists in space " + weekTemplate.getSpaceId()));
+            throw new AlreadyExistsException(new DatabaseDetails("Week template with name " + weekTemplate.getName() + " already exists in space " + weekTemplate.getSpaceId()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -61,10 +61,10 @@ public class WeekTemplatePostgresRepository implements WeekTemplateRepository {
         try {
             int numOfRows = jdbcTemplate.update(sql, weekTemplate.getName(), objectMapper.writeValueAsString(weekTemplate.getData()), weekTemplate.getId(), weekTemplate.getSpaceId());
             if (numOfRows == 0) {
-                throw new NotFoundException("Error occurred while writing to the database", new DatabaseDetails("Week template with id " + weekTemplate.getId() + " not found"));
+                throw new NotFoundException(new DatabaseDetails("Week template with id " + weekTemplate.getId() + " not found"));
             }
         } catch (DuplicateKeyException e) {
-            throw new AlreadyExistsException("Error occurred while writing to the database", new DatabaseDetails("Week template with id " + weekTemplate.getId() + " already exists in space " + weekTemplate.getSpaceId()));
+            throw new AlreadyExistsException(new DatabaseDetails("Week template with id " + weekTemplate.getId() + " already exists in space " + weekTemplate.getSpaceId()));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -75,7 +75,7 @@ public class WeekTemplatePostgresRepository implements WeekTemplateRepository {
         String sql = "DELETE FROM week_template WHERE id = ? AND space_id = ?";
         int numOfRows = jdbcTemplate.update(sql, id, spaceId);
         if (numOfRows == 0) {
-            throw new NotFoundException("Error occurred while writing to the database", new DatabaseDetails("Week template with id " + id + " not found"));
+            throw new NotFoundException(new DatabaseDetails("Week template with id " + id + " not found"));
         }
 
     }
