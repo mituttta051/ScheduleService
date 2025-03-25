@@ -1,0 +1,37 @@
+{
+  "start_date": "2021-01-04",
+  "space_id": 1,
+  "data": {
+    "day_schedules": [
+      {
+        "week_day": 1,
+        "meal_slots": [
+          {
+            "name": "obed",
+            "have_to_cook": true,
+            "locked": false,
+            "filter": {
+              "type": "CONTAINS_TAG",
+              "tag_id": 1,
+              "tag_value": 1
+            },
+            "cooked": false,
+            "recipes": [
+              {
+                "id": 1,
+                "name": "recipe1",
+                "ingredients": [
+                  {
+                    "id": 1,
+                    "name": "ingredient1",
+                    "bought": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

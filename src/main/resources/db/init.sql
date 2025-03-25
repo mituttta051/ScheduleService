@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS week
     space_id   INT  NOT NULL,
     start_date DATE NOT NULL DEFAULT CURRENT_DATE,
     data       jsonb,
-    UNIQUE (space_id, start_date)
+    PRIMARY KEY (space_id, start_date)
 );
 
 CREATE TABLE IF NOT EXISTS last_week_template_id

@@ -31,17 +31,17 @@ public class WeekTemplateRepositoryTests extends RepositoryTests {
     
     @Test
     void testSave() throws IOException {
-        WeekTemplate weekTemplate = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate1.json"), WeekTemplate.class);
+        WeekTemplate weekTemplate = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate/weekTemplate1.json"), WeekTemplate.class);
         weekTemplateRepository.save(weekTemplate);
         WeekTemplate savedWeekTemplate = weekTemplateRepository.getById(1, 1);
         assertThat(savedWeekTemplate).isEqualTo(weekTemplate);
-        
-        WeekTemplate weekTemplate2 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate2.json"), WeekTemplate.class);
+
+        WeekTemplate weekTemplate2 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate/weekTemplate2.json"), WeekTemplate.class);
         weekTemplateRepository.save(weekTemplate2);
         WeekTemplate savedWeekTemplate2 = weekTemplateRepository.getById(2, 1);
         assertThat(savedWeekTemplate2).isEqualTo(weekTemplate2);
-        
-        WeekTemplate weekTemplate3 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate3.json"), WeekTemplate.class);
+
+        WeekTemplate weekTemplate3 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate/weekTemplate3.json"), WeekTemplate.class);
         weekTemplateRepository.save(weekTemplate3);
         WeekTemplate savedWeekTemplate3 = weekTemplateRepository.getById(1, 2);
         assertThat(savedWeekTemplate3).isEqualTo(weekTemplate3);
@@ -49,7 +49,7 @@ public class WeekTemplateRepositoryTests extends RepositoryTests {
     
     @Test
     void testUpdate() throws IOException {
-        WeekTemplate weekTemplate = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate1.json"), WeekTemplate.class);
+        WeekTemplate weekTemplate = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate/weekTemplate1.json"), WeekTemplate.class);
         weekTemplateRepository.save(weekTemplate);
         WeekTemplate savedWeekTemplate = weekTemplateRepository.getById(1, 1);
         assertThat(savedWeekTemplate).isEqualTo(weekTemplate);
@@ -62,7 +62,7 @@ public class WeekTemplateRepositoryTests extends RepositoryTests {
     
     @Test
     void testDelete() throws IOException {
-        WeekTemplate weekTemplate = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate1.json"), WeekTemplate.class);
+        WeekTemplate weekTemplate = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate/weekTemplate1.json"), WeekTemplate.class);
         weekTemplateRepository.save(weekTemplate);
         WeekTemplate savedWeekTemplate = weekTemplateRepository.getById(1, 1);
         assertThat(savedWeekTemplate).isEqualTo(weekTemplate);
@@ -73,17 +73,17 @@ public class WeekTemplateRepositoryTests extends RepositoryTests {
     
     @Test
     void testGetAllBySpaceId() throws IOException {
-        WeekTemplate weekTemplate = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate1.json"), WeekTemplate.class);
+        WeekTemplate weekTemplate = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate/weekTemplate1.json"), WeekTemplate.class);
         weekTemplateRepository.save(weekTemplate);
         WeekTemplate savedWeekTemplate = weekTemplateRepository.getById(1, 1);
         assertThat(savedWeekTemplate).isEqualTo(weekTemplate);
-        
-        WeekTemplate weekTemplate2 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate2.json"), WeekTemplate.class);
+
+        WeekTemplate weekTemplate2 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate/weekTemplate2.json"), WeekTemplate.class);
         weekTemplateRepository.save(weekTemplate2);
         WeekTemplate savedWeekTemplate2 = weekTemplateRepository.getById(2, 1);
         assertThat(savedWeekTemplate2).isEqualTo(weekTemplate2);
-        
-        WeekTemplate weekTemplate3 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate3.json"), WeekTemplate.class);
+
+        WeekTemplate weekTemplate3 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate/weekTemplate3.json"), WeekTemplate.class);
         weekTemplateRepository.save(weekTemplate3);
         WeekTemplate savedWeekTemplate3 = weekTemplateRepository.getById(1, 2);
         assertThat(savedWeekTemplate3).isEqualTo(weekTemplate3);
@@ -100,7 +100,7 @@ public class WeekTemplateRepositoryTests extends RepositoryTests {
     
     @Test
     void testSaveThatAlreadyExists() throws IOException {
-        WeekTemplate weekTemplate3 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate3.json"), WeekTemplate.class);
+        WeekTemplate weekTemplate3 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/weekTemplate/weekTemplate3.json"), WeekTemplate.class);
         weekTemplateRepository.save(weekTemplate3);
         WeekTemplate savedWeekTemplate3 = weekTemplateRepository.getById(1, 2);
         assertThat(savedWeekTemplate3).isEqualTo(weekTemplate3);
