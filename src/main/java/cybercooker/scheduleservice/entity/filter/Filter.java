@@ -11,4 +11,5 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = CookTimeFilter.class, name = CookTimeFilter.TYPE),
         @JsonSubTypes.Type(value = ServingsNumberFilter.class, name = ServingsNumberFilter.TYPE)
 })
-public abstract class Filter { }
+public abstract class Filter {
+}

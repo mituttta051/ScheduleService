@@ -1,0 +1,10 @@
+type: workspace
+model: workspace
+id: wk_SbbTTdXLZM
+createdAt: 2025-03-20T08:08:02.299568
+updatedAt: 2025-03-20T08:08:02.299568
+name: ScheduleService
+description: ''
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0

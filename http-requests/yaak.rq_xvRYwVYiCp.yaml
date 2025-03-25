@@ -1,0 +1,46 @@
+type: http_request
+model: http_request
+id: rq_xvRYwVYiCp
+createdAt: 2025-03-20T09:15:57.842112
+updatedAt: 2025-03-25T10:47:32.638607
+workspaceId: wk_SbbTTdXLZM
+folderId: null
+authentication: { }
+authenticationType: null
+body:
+  text: |-
+    {
+      "space_id": 1,
+      "name": "Базирован",
+      "data": {
+        "day_schedules": [
+          {
+            "week_day": 1,
+            "meal_slots": [
+              {
+                "name": "Обеденная трапеза",
+                "have_to_cook": true,
+                "locked": false,
+                "filter": {
+                  "type": "CONTAINS_TAG",
+                  "tag_id": 1,
+                  "tag_value": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+bodyType: application/json
+description: ''
+headers:
+  - enabled: true
+    name: Content-Type
+    value: application/json
+    id: nTcKUwbkAK
+method: POST
+name: ''
+sortPriority: -1742458000000.0
+url: http://localhost:8080/week-template/create
+urlParameters: [ ]

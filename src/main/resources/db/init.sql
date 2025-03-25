@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS week_template
     id       INT         NOT NULL,
     space_id INT         NOT NULL,
     name     VARCHAR(32) NOT NULL,
-    data     jsonb,
+    data     jsonb       NOT NULL,
     PRIMARY KEY (id, space_id),
     UNIQUE (space_id, name)
 );
