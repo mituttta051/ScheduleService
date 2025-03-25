@@ -1,0 +1,24 @@
+{
+  "id": 1,
+  "space_id": 1,
+  "name": "Базированная неделя",
+  "data": {
+    "day_schedules": [
+      {
+        "week_day": 1,
+        "meal_slots": [
+          {
+            "name": "Обеденная трапеза",
+            "have_to_cook": true,
+            "locked": false,
+            "filter": {
+              "type": "CONTAINS_TAG",
+              "tag_id": 1,
+              "tag_value": 1
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
