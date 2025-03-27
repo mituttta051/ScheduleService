@@ -2,23 +2,20 @@ type: http_request
 model: http_request
 id: rq_xvRYwVYiCp
 createdAt: 2025-03-20T09:15:57.842112
-updatedAt: 2025-03-25T10:47:32.638607
+updatedAt: 2025-03-27T08:01:15.302583
 workspaceId: wk_SbbTTdXLZM
-folderId: null
+folderId: fl_xUBj6RAogs
 authentication: { }
 authenticationType: null
 body:
   text: |-
     {
       "space_id": 1,
-      "name": "Базирован",
       "data": {
         "day_schedules": [
           {
-            "week_day": 1,
             "meal_slots": [
               {
-                "name": "Обеденная трапеза",
                 "have_to_cook": true,
                 "locked": false,
                 "filter": {
@@ -41,6 +38,6 @@ headers:
     id: nTcKUwbkAK
 method: POST
 name: ''
-sortPriority: -1742458000000.0
+sortPriority: 1000.0
 url: http://localhost:8080/week-template/create
 urlParameters: [ ]

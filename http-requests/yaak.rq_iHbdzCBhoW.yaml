@@ -2,9 +2,9 @@ type: http_request
 model: http_request
 id: rq_iHbdzCBhoW
 createdAt: 2025-03-20T08:28:41.194017
-updatedAt: 2025-03-25T10:46:17.709165
+updatedAt: 2025-03-26T07:21:34.129424
 workspaceId: wk_SbbTTdXLZM
-folderId: null
+folderId: fl_xUBj6RAogs
 authentication: { }
 authenticationType: null
 body:
@@ -42,6 +42,6 @@ headers:
     id: 7DZQru0bnI
 method: PUT
 name: ''
-sortPriority: -1742458000000.0
+sortPriority: 2000.0
 url: http://localhost:8080/week-template/update
 urlParameters: [ ]

@@ -2,9 +2,9 @@ type: http_request
 model: http_request
 id: rq_dK8nzwQnbQ
 createdAt: 2025-03-20T08:08:05.605601
-updatedAt: 2025-03-20T08:27:29.456263
+updatedAt: 2025-03-27T07:36:45.222741
 workspaceId: wk_SbbTTdXLZM
-folderId: null
+folderId: fl_xUBj6RAogs
 authentication: { }
 authenticationType: null
 body: { }
@@ -13,6 +13,6 @@ description: ''
 headers: [ ]
 method: GET
 name: ''
-sortPriority: -1742458000000.0
+sortPriority: 500.0
 url: http://localhost:8080/week-template/get/13/2
 urlParameters: [ ]
