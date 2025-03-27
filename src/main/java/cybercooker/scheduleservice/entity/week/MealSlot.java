@@ -1,6 +1,9 @@
 package cybercooker.scheduleservice.entity.week;
 
 import cybercooker.scheduleservice.entity.filter.Filter;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +16,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MealSlot {
+    @NotEmpty
     private String name;
+    @NotNull
     private Boolean haveToCook;
+    @NotNull
     private Boolean locked;
+
     private Filter filter;
+    @NotNull
     private Boolean cooked;
+    @NotNull
+    @Valid
     private List<Recipe> recipes;
 }

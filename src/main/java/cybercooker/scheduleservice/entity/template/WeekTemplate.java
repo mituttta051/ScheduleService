@@ -1,5 +1,6 @@
 package cybercooker.scheduleservice.entity.template;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,7 @@ public class WeekTemplate {
     @NotNull
     private String name;
     @NotNull
+    @Valid
     private TemplateSchedule data;
 }
 

@@ -1,5 +1,7 @@
 package cybercooker.scheduleservice.entity.week;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +14,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Week {
+    @NotNull
     private LocalDate startDate;
+    @NotNull
     private Integer spaceId;
+    @NotNull
+    @Valid
     private Schedule data;
 
 }
