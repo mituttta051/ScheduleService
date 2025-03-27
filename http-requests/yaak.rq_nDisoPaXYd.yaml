@@ -2,9 +2,9 @@ type: http_request
 model: http_request
 id: rq_nDisoPaXYd
 createdAt: 2025-03-20T08:27:35.203579
-updatedAt: 2025-03-20T08:27:57.822773
+updatedAt: 2025-03-26T07:21:34.129678
 workspaceId: wk_SbbTTdXLZM
-folderId: null
+folderId: fl_xUBj6RAogs
 authentication: { }
 authenticationType: null
 body: { }
@@ -13,6 +13,6 @@ description: ''
 headers: [ ]
 method: DELETE
 name: ''
-sortPriority: -1742458000000.0
+sortPriority: 3000.0
 url: http://localhost:8080/week-template/delete/1/2
 urlParameters: [ ]

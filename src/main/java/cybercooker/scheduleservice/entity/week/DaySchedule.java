@@ -1,4 +1,4 @@
-package cybercooker.scheduleservice.entity.template;
+package cybercooker.scheduleservice.entity.week;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -6,21 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
+
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WeekTemplate {
+public class DaySchedule {
     @NotNull
-    private Integer id;
-    @NotNull
-    private Integer spaceId;
-    @NotNull
-    private String name;
+    @Range(min = 1, max = 7)
+    private Integer weekDay;
     @NotNull
     @Valid
-    private TemplateSchedule data;
+    private List<MealSlot> mealSlots;
 }
-
-
