@@ -19,6 +19,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest(classes = ScheduleServiceApplication.class)
 public class WeekRepositoryTests extends RepositoryTests {
+    private final String generalPath = "src/test/java/cybercooker/scheduleservice/samples/week/";
+    private final File fileWeek1 = new File(generalPath + "week1.json");
+    private final File fileWeek2 = new File(generalPath + "week2.json");
+    private final File fileWeek3 = new File(generalPath + "week3.json");
+
     @Autowired
     WeekRepository weekRepository;
 
@@ -32,19 +37,19 @@ public class WeekRepositoryTests extends RepositoryTests {
 
     @Test
     void testSave() throws IOException {
-        Week week = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/week/week1.json"), Week.class);
+        Week week = objectMapper.readValue(fileWeek1, Week.class);
         weekRepository.save(week);
         LocalDate localDate1 = LocalDate.of(2021, 1, 4);
         Week savedWeek = weekRepository.getById(localDate1, 1);
         assertThat(savedWeek).isEqualTo(week);
 
-        Week week2 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/week/week2.json"), Week.class);
+        Week week2 = objectMapper.readValue(fileWeek2, Week.class);
         weekRepository.save(week2);
         LocalDate localDate2 = LocalDate.of(2021, 1, 11);
         Week savedWeek2 = weekRepository.getById(localDate2, 1);
         assertThat(savedWeek2).isEqualTo(week2);
 
-        Week week3 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/week/week3.json"), Week.class);
+        Week week3 = objectMapper.readValue(fileWeek3, Week.class);
         weekRepository.save(week3);
         Week savedWeek3 = weekRepository.getById(localDate1, 2);
         assertThat(savedWeek3).isEqualTo(week3);
@@ -53,7 +58,7 @@ public class WeekRepositoryTests extends RepositoryTests {
 
     @Test
     void testUpdate() throws IOException {
-        Week week = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/week/week1.json"), Week.class);
+        Week week = objectMapper.readValue(fileWeek1, Week.class);
         weekRepository.save(week);
         LocalDate localDate1 = LocalDate.of(2021, 1, 4);
         Week savedWeek = weekRepository.getById(localDate1, 1);
@@ -67,31 +72,33 @@ public class WeekRepositoryTests extends RepositoryTests {
 
     @Test
     void testDelete() throws IOException {
-        Week week = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/week/week1.json"), Week.class);
+        Week week = objectMapper.readValue(fileWeek1, Week.class);
         weekRepository.save(week);
         LocalDate localDate1 = LocalDate.of(2021, 1, 4);
         Week savedWeek = weekRepository.getById(localDate1, 1);
         assertThat(savedWeek).isEqualTo(week);
 
         weekRepository.delete(localDate1, 1);
-        assertThatThrownBy(() -> weekRepository.getById(localDate1, 1)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() ->
+                weekRepository.getById(localDate1, 1))
+                .isInstanceOf(NotFoundException.class);
     }
 
     @Test
     void testGetAllBySpaceId() throws IOException {
-        Week week = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/week/week1.json"), Week.class);
+        Week week = objectMapper.readValue(fileWeek1, Week.class);
         weekRepository.save(week);
         LocalDate localDate1 = LocalDate.of(2021, 1, 4);
         Week savedWeek = weekRepository.getById(localDate1, 1);
         assertThat(savedWeek).isEqualTo(week);
 
-        Week week2 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/week/week2.json"), Week.class);
+        Week week2 = objectMapper.readValue(fileWeek2, Week.class);
         weekRepository.save(week2);
         LocalDate localDate2 = LocalDate.of(2021, 1, 11);
         Week savedWeek2 = weekRepository.getById(localDate2, 1);
         assertThat(savedWeek2).isEqualTo(week2);
 
-        Week week3 = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/week/week3.json"), Week.class);
+        Week week3 = objectMapper.readValue(fileWeek3, Week.class);
         weekRepository.save(week3);
         Week savedWeek3 = weekRepository.getById(localDate1, 2);
         assertThat(savedWeek3).isEqualTo(week3);
@@ -103,29 +110,37 @@ public class WeekRepositoryTests extends RepositoryTests {
 
     @Test
     void testGetByIdThatDoesNotExist() {
-        assertThatThrownBy(() -> weekRepository.getById(LocalDate.of(2021, 1, 4), 1)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() ->
+                weekRepository.getById(LocalDate.of(2021, 1, 4), 1))
+                .isInstanceOf(NotFoundException.class);
     }
 
     @Test
     void testSaveThatAlreadyExists() throws IOException {
-        Week week = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/week/week1.json"), Week.class);
+        Week week = objectMapper.readValue(fileWeek1, Week.class);
         weekRepository.save(week);
         LocalDate localDate1 = LocalDate.of(2021, 1, 4);
         Week savedWeek = weekRepository.getById(localDate1, 1);
         assertThat(savedWeek).isEqualTo(week);
 
-        assertThatThrownBy(() -> weekRepository.save(week)).isInstanceOf(AlreadyExistsException.class);
+        assertThatThrownBy(() ->
+                weekRepository.save(week))
+                .isInstanceOf(AlreadyExistsException.class);
     }
 
     @Test
     void deleteThatDoesNotExist() {
-        assertThatThrownBy(() -> weekRepository.delete(LocalDate.of(2021, 1, 4), 1)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() ->
+                weekRepository.delete(LocalDate.of(2021, 1, 4), 1))
+                .isInstanceOf(NotFoundException.class);
     }
 
     @Test
     void updateThatDoesNotExist() throws IOException {
-        Week week = objectMapper.readValue(new File("src/test/java/cybercooker/scheduleservice/samples/week/week1.json"), Week.class);
-        assertThatThrownBy(() -> weekRepository.update(week)).isInstanceOf(NotFoundException.class);
+        Week week = objectMapper.readValue(fileWeek1, Week.class);
+        assertThatThrownBy(() ->
+                weekRepository.update(week))
+                .isInstanceOf(NotFoundException.class);
     }
 }
 

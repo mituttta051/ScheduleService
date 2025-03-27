@@ -1,6 +1,7 @@
 package cybercooker.scheduleservice.entity.template;
 
 import cybercooker.scheduleservice.entity.filter.Filter;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,6 @@ public class TemplateMealSlot {
     private Boolean haveToCook;
     @NotNull
     private Boolean locked;
-
+    @Nullable
     private Filter filter;
 }
