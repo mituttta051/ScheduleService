@@ -1,7 +1,16 @@
+server:
+  port: 8081
 spring:
   application:
     name: ScheduleService
   datasource:
-    url: jdbc:postgresql://localhost:5432/schedule-db?serverTimezone=UTC
+    url: jdbc:postgresql://localhost:5432/scheduleservice?serverTimezone=UTC
     username: admin
     password: secret
+  grpc:
+    client:
+      channels:
+        local:
+          address: static://localhost:9090
+      
+    
