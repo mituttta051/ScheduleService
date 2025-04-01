@@ -1,0 +1,63 @@
+syntax = "proto3";
+import "filter.proto";
+
+package recipe;
+
+option java_multiple_files = true;
+option java_package = "cybercooker.recipeservice.grpc.recipe";
+option java_outer_classname = "RecipeProto";
+
+message RecipeIdGrpc {
+  int32 id = 1;
+  int32 space_id = 2;
+}
+
+message TagGrpc {
+  int32 id = 1;
+  repeated int32 values = 2;
+}
+
+message RecipeGrpc {
+  int32 id = 1;
+  int32 space_id = 2;
+  string name = 3;
+  string description = 4;
+  repeated int32 ingredients = 5;
+  int32 servingsNumber = 6;
+  int32 cookTime = 7;
+  repeated TagGrpc tags = 8;
+}
+
+message RecipeListGrpc {
+  repeated RecipeGrpc recipes = 1;
+}
+
+message RecipeGetAllGrpc {
+  int32 space_id = 1;
+}
+
+message RecipeGrpcCreateRequest {
+  int32 space_id = 1;
+  string name = 2;
+  string description = 3;
+  repeated int32 ingredients = 4;
+  int32 servingsNumber = 5;
+  int32 cookTime = 6;
+  repeated TagGrpc tags = 7;
+}
+
+message GetRecipesByFilterGrpc {
+  filter.FilterGrpc filter = 1;
+  int32 space_id = 2;
+}
+
+message Empty {}
+
+service RecipeService {
+  rpc GetRecipeById(RecipeIdGrpc) returns (RecipeGrpc);
+  rpc GetAllRecipesBySpaceId(RecipeGetAllGrpc) returns (RecipeListGrpc);
+  rpc AddRecipe(RecipeGrpcCreateRequest) returns (Empty);
+  rpc UpdateRecipe(RecipeGrpc) returns (Empty);
+  rpc DeleteRecipeById(RecipeIdGrpc) returns (Empty);
+  rpc GetRecipesByFilter(GetRecipesByFilterGrpc) returns (RecipeListGrpc);
+}
