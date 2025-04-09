@@ -1,4 +1,4 @@
-package cybercooker.scheduleservice.entity.week;
+package cybercooker.scheduleservice.request.generate;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,5 +34,20 @@ public class WeekService {
 
     public void delete(LocalDate startDate, int spaceId) throws NotFoundException {
         weekRepository.delete(startDate, spaceId);
+    }
+
+    public List<Week> getPreviousWeeks(LocalDate startDate, int spaceId) {
+        List<Week> previousWeeks = new ArrayList<>();
+        try {
+            previousWeeks.add(weekRepository.getById(startDate.minusWeeks(1), spaceId));
+        } catch (NotFoundException e) {
+            //
+        }
+        try {
+            previousWeeks.add(weekRepository.getById(startDate.minusWeeks(2), spaceId));
+        } catch (NotFoundException e) {
+            // 
+        }
+        return previousWeeks;
     }
 }

@@ -37,6 +37,7 @@ public class GeneralAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String internalServerErrorHandler(Exception e) {
+        e.printStackTrace();
         return e.getMessage();
     }
 

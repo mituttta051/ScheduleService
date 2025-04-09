@@ -1,5 +1,6 @@
 package cybercooker.scheduleservice;
 
+import cybercooker.scheduleservice.grpc.RecipeGrpcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class ScheduleServiceApplication implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(ScheduleServiceApplication.class);
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private RecipeGrpcClient recipeGrpcClient;
 
 
     public static void main(String[] args) {

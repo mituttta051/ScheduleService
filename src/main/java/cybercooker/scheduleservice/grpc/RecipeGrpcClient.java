@@ -13,10 +13,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RecipeGrpcClient {
+public class RecipeGrpcClient implements RecipeGrpcClientInterface {
     @Autowired
     private RecipeServiceGrpc.RecipeServiceBlockingStub recipeServiceStub;
 
+    @Override
     public List<RecipeDTO> getRecipesByFilter(Filter filter, int spaceId) {
         GetRecipesByFilterGrpc request = FilterMapper.toGetRecipesByFilterGrpc(filter, spaceId);
 

@@ -1,4 +1,4 @@
-package cybercooker.scheduleservice.entity.week;
+package cybercooker.scheduleservice.request.generate;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Recipe {
+public class Ingredient {
     @NotNull
     private Integer id;
     @NotEmpty
     private String name;
+    @NotNull
+    private Boolean bought;
 }
