@@ -19,7 +19,7 @@ public class ScheduleController {
 
     @PostMapping("/generate")
     public ResponseEntity<Week> generateWeek(@Valid @RequestBody GenerateWeekReq incompleteWeek) {
-        return ResponseEntity.ok(scheduleService.generateSimpleSchedule(incompleteWeek));
+        return ResponseEntity.ok(scheduleService.generateSchedule(incompleteWeek));
     }
 
 }

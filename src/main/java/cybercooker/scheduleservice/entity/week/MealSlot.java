@@ -20,7 +20,7 @@ public class MealSlot {
     @NotEmpty
     private String name;
     @NotNull
-    private Boolean haveToCook;
+    private Boolean canCook;
     @NotNull
     private Boolean locked;
     @Nullable

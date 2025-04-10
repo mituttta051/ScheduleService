@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RecipeGrpcClient implements RecipeGrpcClientInterface {
+public class RecipeGrpcClient implements RecipeGateway {
     @Autowired
     private RecipeServiceGrpc.RecipeServiceBlockingStub recipeServiceStub;
 

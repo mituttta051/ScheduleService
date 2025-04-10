@@ -3,14 +3,16 @@ package cybercooker.scheduleservice.grpc;
 import cybercooker.scheduleservice.entity.dto.RecipeDTO;
 import cybercooker.scheduleservice.entity.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service("recipeGrpcClientProxy")
-public class RecipeGrpcClientProxy implements RecipeGrpcClientInterface {
+@Service
+@Primary
+public class RecipeGrpcClientProxy implements RecipeGateway {
     @Autowired
     private RecipeGrpcClient recipeGrpcClient;
     private final Map<Integer, Map<Filter, List<RecipeDTO>>> cache = new HashMap<>();
