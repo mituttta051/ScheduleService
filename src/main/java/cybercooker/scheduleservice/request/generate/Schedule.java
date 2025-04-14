@@ -1,19 +1,20 @@
-package cybercooker.scheduleservice.entity.week;
+package cybercooker.scheduleservice.request.generate;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Recipe {
-    @NotNull
-    private Integer id;
+public class Schedule {
     @NotEmpty
-    private String name;
+    @Valid
+    List<DaySchedule> daySchedules;
 }

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package tag;
+
+option java_multiple_files = true;
+option java_package = "cybercooker.recipeservice.grpc.tag";
+option java_outer_classname = "TagProto";
+
+message TagId {
+  int32 id = 1;
+  int32 space_id = 2;
+}
+
+message TagGrpc {
+  int32 id = 1;
+  int32 space_id = 2;
+  string name = 3;
+  map<int32, string> values = 4;
+}
+
+message TagListGrpc {
+  repeated TagGrpc tags = 1;
+}
+
+message TagGrpcGetAll {
+  int32 space_id = 1;
+}
+
+message TagGrpcCreateRequest {
+  int32 space_id = 1;
+  string name = 2;
+  map<int32, string> values = 3;
+}
+
+message Empty {}
+
+service TagService {
+  rpc GetTagById(TagId) returns (TagGrpc);
+  rpc GetAllTagsBySpaceId(TagGrpcGetAll) returns (TagListGrpc);
+  rpc AddTag(TagGrpcCreateRequest) returns (Empty);
+  rpc UpdateTag(TagGrpc) returns (Empty);
+  rpc DeleteTagById(TagId) returns (Empty);
+}

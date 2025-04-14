@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package filter;
+
+option java_multiple_files = true;
+option java_package = "cybercooker.recipeservice.grpc.filter";
+option java_outer_classname = "FilterProto";
+
+
+message AndFilterGrpc {
+  repeated FilterGrpc filters = 1;
+}
+
+message OrFilterGrpc {
+  repeated FilterGrpc filters = 1;
+}
+
+message ContainsTagFilterGrpc {
+  int32 tagId = 1;
+  int32 tagValue = 2;
+}
+
+message CookTimeFilterGrpc {
+  optional int32 min = 1;
+  optional int32 max = 2;
+}
+
+message ServingsNumberFilterGrpc {
+  int32 min = 1;
+  int32 max = 2;
+}
+
+message FilterGrpc {
+  oneof filter {
+    AndFilterGrpc and = 1;
+    OrFilterGrpc or = 2;
+    ContainsTagFilterGrpc containsTag = 3;
+    CookTimeFilterGrpc cookTime = 4;
+    ServingsNumberFilterGrpc servingsNumber = 5;
+  }
+}
+

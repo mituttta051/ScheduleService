@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package ingredient;
+
+option java_multiple_files = true;
+option java_package = "cybercooker.recipeservice.grpc.ingredient";
+option java_outer_classname = "IngredientProto";
+
+message IngredientGrpcCreateRequest {
+  int32 space_id = 1;
+  string name = 2;
+}
+
+message IngredientIdGrpc {
+  int32 id = 1;
+  int32 space_id = 2;
+}
+
+message IngredientGrpcGetAll {
+  int32 space_id = 1;
+}
+
+
+message IngredientGrpc {
+  int32 id = 1;
+  int32 space_id = 2;
+  string name = 3;
+}
+
+message IngredientListGrpc {
+  repeated IngredientGrpc ingredients = 1;
+}
+
+message Empty {}
+
+
+service IngredientService {
+  rpc GetIngredientById(IngredientIdGrpc) returns (IngredientGrpc);
+  rpc GetAllIngredientsBySpaceId(IngredientGrpcGetAll) returns (IngredientListGrpc);
+  rpc AddIngredient(IngredientGrpcCreateRequest) returns (Empty);
+  rpc UpdateIngredient(IngredientGrpc) returns (Empty);
+  rpc DeleteIngredientById(IngredientIdGrpc) returns (Empty);
+}
