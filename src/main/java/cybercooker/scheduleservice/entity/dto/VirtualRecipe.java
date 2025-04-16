@@ -8,4 +8,5 @@ import lombok.Data;
 public class VirtualRecipe {
     private int id;
     private int portionsLeft;
+    private int daysTillExpiry;
 }

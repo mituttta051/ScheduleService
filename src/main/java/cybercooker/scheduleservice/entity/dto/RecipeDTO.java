@@ -15,6 +15,7 @@ public class RecipeDTO {
     private List<Integer> ingredients;
     private int servingsNumber;
     private int cookTime;
+    private int shelfLife;
     private List<TagDTO> tags;
 
     @Builder

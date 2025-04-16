@@ -25,7 +25,8 @@ message RecipeGrpc {
   repeated int32 ingredients = 5;
   int32 servingsNumber = 6;
   int32 cookTime = 7;
-  repeated TagGrpc tags = 8;
+  int32 shelfLife = 8;
+  repeated TagGrpc tags = 9;
 }
 
 message RecipeListGrpc {
@@ -43,7 +44,8 @@ message RecipeGrpcCreateRequest {
   repeated int32 ingredients = 4;
   int32 servingsNumber = 5;
   int32 cookTime = 6;
-  repeated TagGrpc tags = 7;
+  int32 shelfLife = 7;
+  repeated TagGrpc tags = 8;
 }
 
 message GetRecipesByFilterGrpc {
