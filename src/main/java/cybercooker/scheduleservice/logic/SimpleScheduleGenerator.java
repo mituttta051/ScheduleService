@@ -18,11 +18,12 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
     List<MealSlot> mealSlots;
     Queue<VirtualRecipe> cookedRecipes;
     VirtualCell current;
+    Map<Integer, Integer> weekDays;
 
     public SimpleScheduleGenerator(RecipeGateway recipeGateway, GenerateWeekReq incompleteWeek) {
         this.recipeGateway = recipeGateway;
         this.incompleteWeek = incompleteWeek;
-        this.mealSlots = getMealSlots();
+        initMealSlotsAndWeekDays();
         this.cookedRecipes = new LinkedList<>();
         this.current = initializeFirstCell();
     }
@@ -30,6 +31,7 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
     @Override
     public Week generateSchedule() {
         while (!stoppingCriteria()) {
+            nextDay();
             RecipeDTO suitableRecipe = getRecipeFromQueue(current.getCandidates());
             if (suitableRecipe != null) {
                 //found already cooked recipe 
@@ -49,8 +51,6 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
                 handleCancellationOfRecipe(current.getRecipe(), current.isCookedHere());
                 current = current.getParent();
             }
-
-
         }
 
         return buildWeekFromCells();
@@ -74,14 +74,19 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
         return firstCell;
     }
 
-    protected List<MealSlot> getMealSlots() {
-        List<MealSlot> allMealSlots = new ArrayList<>();
+    protected void initMealSlotsAndWeekDays() {
+        int depth = 0;
+        weekDays = new HashMap<>();
+        mealSlots = new ArrayList<>();
         for (DaySchedule daySchedule : incompleteWeek.getData().getDaySchedules()) {
             for (MealTime mealTime : daySchedule.getMealTimes()) {
-                allMealSlots.addAll(mealTime.getMealSlots());
+                for (MealSlot mealSlot : mealTime.getMealSlots()) {
+                    mealSlots.add(mealSlot);
+                    depth++;
+                    weekDays.put(depth, daySchedule.getWeekDay());
+                }
             }
         }
-        return allMealSlots;
     }
 
     protected List<RecipeDTO> getCandidates(Filter filter) {
@@ -161,6 +166,7 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
         cookedRecipes.add(VirtualRecipe.builder()
                 .id(suitableRecipe.getId())
                 .portionsLeft(suitableRecipe.getServingsNumber() - 1)
+                .daysTillExpiry(suitableRecipe.getShelfLife())
                 .build());
     }
 
@@ -178,9 +184,29 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
         }
     }
 
-    private void handleCancellationOfRecipe(
-            RecipeDTO cancelledRecipe,
-            boolean cookedHere) {
+    private void nextDay() {
+        Integer weekDay = weekDays.get(current.getDepth());
+        Integer parentWeekDay = weekDays.get(current.getDepth() - 1);
+        if (Objects.equals(weekDay, parentWeekDay)) {
+            return;
+        }
+        for (VirtualRecipe virtualRecipe : cookedRecipes) {
+            virtualRecipe.setDaysTillExpiry(virtualRecipe.getDaysTillExpiry() - 1);
+        }
+    }
+
+    private void previousDay() {
+        Integer weekDay = weekDays.get(current.getDepth());
+        Integer parentWeekDay = weekDays.get(current.getDepth() - 1);
+        if (Objects.equals(weekDay, parentWeekDay)) {
+            return;
+        }
+        for (VirtualRecipe virtualRecipe : cookedRecipes) {
+            virtualRecipe.setDaysTillExpiry(virtualRecipe.getDaysTillExpiry() + 1);
+        }
+    }
+
+    private void handleCancellationOfRecipe(RecipeDTO cancelledRecipe, boolean cookedHere) {
         if (cookedHere) {
             cookedRecipes.removeIf(recipe -> recipe.getId() == cancelledRecipe.getId());
             return;
@@ -190,6 +216,7 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
                 recipe.setPortionsLeft(recipe.getPortionsLeft() + 1);
             }
         }
+        previousDay();
 
     }
 
