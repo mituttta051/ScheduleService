@@ -1,9 +1,6 @@
 package cybercooker.scheduleservice.mapper;
 
-import cybercooker.scheduleservice.entity.week.DaySchedule;
-import cybercooker.scheduleservice.entity.week.MealSlot;
-import cybercooker.scheduleservice.entity.week.Schedule;
-import cybercooker.scheduleservice.entity.week.Week;
+import cybercooker.scheduleservice.entity.week.*;
 import cybercooker.scheduleservice.request.generate.GenerateWeekReq;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,9 +15,13 @@ public interface WeekMapper {
     @Mapping(target = "daySchedules", source = "daySchedules")
     Schedule toSchedule(cybercooker.scheduleservice.request.generate.Schedule source);
 
-    @Mapping(target = "mealSlots", source = "mealSlots")
+    @Mapping(target = "mealTimes", source = "mealTimes")
     DaySchedule toDaySchedule(cybercooker.scheduleservice.request.generate.DaySchedule source);
 
-    @Mapping(target = "recipes", source = "recipes")
+    @Mapping(target = "mealSlots", source = "mealSlots")
+    MealTime toMealTime(cybercooker.scheduleservice.request.generate.MealTime source);
+
+    @Mapping(target = "recipe", source = "recipe")
     MealSlot toMealSlot(cybercooker.scheduleservice.request.generate.MealSlot source);
+    
 }

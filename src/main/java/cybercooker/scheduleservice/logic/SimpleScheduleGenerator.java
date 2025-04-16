@@ -8,15 +8,10 @@ import cybercooker.scheduleservice.entity.week.Week;
 import cybercooker.scheduleservice.grpc.RecipeGateway;
 import cybercooker.scheduleservice.mapper.RecipeMapper;
 import cybercooker.scheduleservice.mapper.WeekMapper;
-import cybercooker.scheduleservice.request.generate.DaySchedule;
-import cybercooker.scheduleservice.request.generate.GenerateWeekReq;
-import cybercooker.scheduleservice.request.generate.MealSlot;
-import cybercooker.scheduleservice.request.generate.Recipe;
-import lombok.Builder;
+import cybercooker.scheduleservice.request.generate.*;
 
 import java.util.*;
 
-@Builder
 public class SimpleScheduleGenerator implements ScheduleGenerator {
     RecipeGateway recipeGateway;
     GenerateWeekReq incompleteWeek;
@@ -42,7 +37,7 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
                         suitableRecipe,
                         false);
 
-            } else if (!current.getCandidates().isEmpty() && getChildMealSlotForCell().getCanCook()) {
+            } else if (!current.getCandidates().isEmpty() && canCook(getChildMealSlotForCell())) {
                 RecipeDTO candidate = chooseCandidate(current.getCandidates());
                 current = addNewCell(
                         candidate,
@@ -82,7 +77,9 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
     protected List<MealSlot> getMealSlots() {
         List<MealSlot> allMealSlots = new ArrayList<>();
         for (DaySchedule daySchedule : incompleteWeek.getData().getDaySchedules()) {
-            allMealSlots.addAll(daySchedule.getMealSlots());
+            for (MealTime mealTime : daySchedule.getMealTimes()) {
+                allMealSlots.addAll(mealTime.getMealSlots());
+            }
         }
         return allMealSlots;
     }
@@ -139,6 +136,17 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
         return mealSlots.get(current.getDepth() + 1);
     }
 
+    private boolean canCook(MealSlot mealSlot) {
+        for (DaySchedule daySchedule : incompleteWeek.getData().getDaySchedules()) {
+            for (MealTime mealTime : daySchedule.getMealTimes()) {
+                if (mealTime.getMealSlots().contains(mealSlot)) {
+                    return mealTime.getCanCook();
+                }
+            }
+        }
+        throw new IllegalStateException("MealSlot not found" + mealSlot);
+    }
+
 
     private RecipeDTO getRecipeFromQueue(List<RecipeDTO> candidates) {
         for (RecipeDTO recipeDTO : candidates) {
@@ -192,8 +200,11 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
         List<Recipe> recipes = extractRecipesFromCells(current).stream().map(RecipeMapper::toRecipe).toList();
         int i = 0;
         for (DaySchedule daySchedule : incompleteWeek.getData().getDaySchedules()) {
-            for (MealSlot mealSlot : daySchedule.getMealSlots()) {
-                mealSlot.setRecipes(List.of(recipes.get(i)));
+            for (MealTime mealTime : daySchedule.getMealTimes()) {
+                for (MealSlot mealSlot : mealTime.getMealSlots()) {
+
+                    mealSlot.setRecipe(recipes.get(i));
+                }
                 i++;
             }
         }

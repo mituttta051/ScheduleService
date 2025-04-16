@@ -8,8 +8,8 @@ import cybercooker.scheduleservice.request.generate.GenerateWeekReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/// TODO учесть expirationDate
-/// TODO учесть несколько рецептов для слота
+// TODO учесть expirationDate
+// TODO учесть несколько рецептов для слота
 @Service
 public class ScheduleService {
     @Autowired
@@ -18,10 +18,7 @@ public class ScheduleService {
     private RecipeGateway recipeGrpcClient;
 
     public Week generateSchedule(GenerateWeekReq generateWeekReq) {
-        ScheduleGenerator scheduleGenerator = SimpleScheduleGenerator.builder()
-                .recipeGateway(recipeGrpcClient)
-                .incompleteWeek(generateWeekReq)
-                .build();
+        ScheduleGenerator scheduleGenerator = new SimpleScheduleGenerator(recipeGrpcClient, generateWeekReq);
         return scheduleGenerator.generateSchedule();
     }
 
