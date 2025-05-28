@@ -8,26 +8,22 @@ import cybercooker.scheduleservice.entity.week.Week;
 import cybercooker.scheduleservice.grpc.RecipeGateway;
 import cybercooker.scheduleservice.mapper.RecipeMapper;
 import cybercooker.scheduleservice.mapper.WeekMapper;
-import cybercooker.scheduleservice.request.generate.DaySchedule;
-import cybercooker.scheduleservice.request.generate.GenerateWeekReq;
-import cybercooker.scheduleservice.request.generate.MealSlot;
-import cybercooker.scheduleservice.request.generate.Recipe;
-import lombok.Builder;
+import cybercooker.scheduleservice.request.generate.*;
 
 import java.util.*;
 
-@Builder
 public class SimpleScheduleGenerator implements ScheduleGenerator {
     RecipeGateway recipeGateway;
     GenerateWeekReq incompleteWeek;
     List<MealSlot> mealSlots;
     Queue<VirtualRecipe> cookedRecipes;
     VirtualCell current;
+    Map<Integer, Integer> weekDays;
 
     public SimpleScheduleGenerator(RecipeGateway recipeGateway, GenerateWeekReq incompleteWeek) {
         this.recipeGateway = recipeGateway;
         this.incompleteWeek = incompleteWeek;
-        this.mealSlots = getMealSlots();
+        initMealSlotsAndWeekDays();
         this.cookedRecipes = new LinkedList<>();
         this.current = initializeFirstCell();
     }
@@ -35,6 +31,7 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
     @Override
     public Week generateSchedule() {
         while (!stoppingCriteria()) {
+            nextDay();
             RecipeDTO suitableRecipe = getRecipeFromQueue(current.getCandidates());
             if (suitableRecipe != null) {
                 //found already cooked recipe 
@@ -42,7 +39,7 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
                         suitableRecipe,
                         false);
 
-            } else if (!current.getCandidates().isEmpty() && getChildMealSlotForCell().getCanCook()) {
+            } else if (!current.getCandidates().isEmpty() && canCook(getChildMealSlotForCell())) {
                 RecipeDTO candidate = chooseCandidate(current.getCandidates());
                 current = addNewCell(
                         candidate,
@@ -54,8 +51,6 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
                 handleCancellationOfRecipe(current.getRecipe(), current.isCookedHere());
                 current = current.getParent();
             }
-
-
         }
 
         return buildWeekFromCells();
@@ -79,12 +74,19 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
         return firstCell;
     }
 
-    protected List<MealSlot> getMealSlots() {
-        List<MealSlot> allMealSlots = new ArrayList<>();
+    protected void initMealSlotsAndWeekDays() {
+        int depth = 0;
+        weekDays = new HashMap<>();
+        mealSlots = new ArrayList<>();
         for (DaySchedule daySchedule : incompleteWeek.getData().getDaySchedules()) {
-            allMealSlots.addAll(daySchedule.getMealSlots());
+            for (MealTime mealTime : daySchedule.getMealTimes()) {
+                for (MealSlot mealSlot : mealTime.getMealSlots()) {
+                    mealSlots.add(mealSlot);
+                    depth++;
+                    weekDays.put(depth, daySchedule.getWeekDay());
+                }
+            }
         }
-        return allMealSlots;
     }
 
     protected List<RecipeDTO> getCandidates(Filter filter) {
@@ -139,6 +141,17 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
         return mealSlots.get(current.getDepth() + 1);
     }
 
+    private boolean canCook(MealSlot mealSlot) {
+        for (DaySchedule daySchedule : incompleteWeek.getData().getDaySchedules()) {
+            for (MealTime mealTime : daySchedule.getMealTimes()) {
+                if (mealTime.getMealSlots().contains(mealSlot)) {
+                    return mealTime.getCanCook();
+                }
+            }
+        }
+        throw new IllegalStateException("MealSlot not found" + mealSlot);
+    }
+
 
     private RecipeDTO getRecipeFromQueue(List<RecipeDTO> candidates) {
         for (RecipeDTO recipeDTO : candidates) {
@@ -153,6 +166,7 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
         cookedRecipes.add(VirtualRecipe.builder()
                 .id(suitableRecipe.getId())
                 .portionsLeft(suitableRecipe.getServingsNumber() - 1)
+                .daysTillExpiry(suitableRecipe.getShelfLife())
                 .build());
     }
 
@@ -170,9 +184,29 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
         }
     }
 
-    private void handleCancellationOfRecipe(
-            RecipeDTO cancelledRecipe,
-            boolean cookedHere) {
+    private void nextDay() {
+        Integer weekDay = weekDays.get(current.getDepth());
+        Integer parentWeekDay = weekDays.get(current.getDepth() - 1);
+        if (Objects.equals(weekDay, parentWeekDay)) {
+            return;
+        }
+        for (VirtualRecipe virtualRecipe : cookedRecipes) {
+            virtualRecipe.setDaysTillExpiry(virtualRecipe.getDaysTillExpiry() - 1);
+        }
+    }
+
+    private void previousDay() {
+        Integer weekDay = weekDays.get(current.getDepth());
+        Integer parentWeekDay = weekDays.get(current.getDepth() - 1);
+        if (Objects.equals(weekDay, parentWeekDay)) {
+            return;
+        }
+        for (VirtualRecipe virtualRecipe : cookedRecipes) {
+            virtualRecipe.setDaysTillExpiry(virtualRecipe.getDaysTillExpiry() + 1);
+        }
+    }
+
+    private void handleCancellationOfRecipe(RecipeDTO cancelledRecipe, boolean cookedHere) {
         if (cookedHere) {
             cookedRecipes.removeIf(recipe -> recipe.getId() == cancelledRecipe.getId());
             return;
@@ -182,6 +216,7 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
                 recipe.setPortionsLeft(recipe.getPortionsLeft() + 1);
             }
         }
+        previousDay();
 
     }
 
@@ -192,8 +227,11 @@ public class SimpleScheduleGenerator implements ScheduleGenerator {
         List<Recipe> recipes = extractRecipesFromCells(current).stream().map(RecipeMapper::toRecipe).toList();
         int i = 0;
         for (DaySchedule daySchedule : incompleteWeek.getData().getDaySchedules()) {
-            for (MealSlot mealSlot : daySchedule.getMealSlots()) {
-                mealSlot.setRecipes(List.of(recipes.get(i)));
+            for (MealTime mealTime : daySchedule.getMealTimes()) {
+                for (MealSlot mealSlot : mealTime.getMealSlots()) {
+
+                    mealSlot.setRecipe(recipes.get(i));
+                }
                 i++;
             }
         }

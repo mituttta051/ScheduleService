@@ -15,6 +15,7 @@ public class RecipeMapper {
                 .cookTime(recipeGrpc.getCookTime())
                 .servingsNumber(recipeGrpc.getServingsNumber())
                 .ingredients(recipeGrpc.getIngredientsList())
+                .shelfLife(recipeGrpc.getShelfLife())
                 .tags(recipeGrpc.getTagsList().stream().map(RecipeMapper::toTagDTO).toList())
                 .build();
     }

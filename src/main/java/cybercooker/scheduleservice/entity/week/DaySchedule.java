@@ -20,5 +20,5 @@ public class DaySchedule {
     private Integer weekDay;
     @NotNull
     @Valid
-    private List<MealSlot> mealSlots;
+    private List<MealTime> mealTimes;
 }

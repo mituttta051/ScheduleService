@@ -1,12 +1,13 @@
-package cybercooker.scheduleservice.entity.template;
+package cybercooker.scheduleservice.entity.week;
 
+import cybercooker.scheduleservice.request.generate.MealSlot;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
 
 import java.util.List;
 
@@ -14,11 +15,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TemplateDaySchedule {
+public class MealTime {
+    @NotEmpty
+    private String name;
     @NotNull
-    @Range(min = 1, max = 7)
-    private Integer weekDay;
+    private Boolean canCook;
     @NotNull
     @Valid
-    private List<TemplateMealTime> mealTimes;
+    List<MealSlot> mealSlots;
 }
